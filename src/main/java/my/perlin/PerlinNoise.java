@@ -7,7 +7,8 @@ package my.perlin;
 import java.util.*;
 
 /**
- *
+ * Perlin Noise generator. Works on a pixel map (integral point coordinates).
+ * 
  * @author Kay Jay O'Nail
  */
 public class PerlinNoise
@@ -74,6 +75,33 @@ public class PerlinNoise
      * <i>The value is mathematically derived, not user-defined.</i>
      */
     private static final float maxRawNoise = (float) (2.0 * Math.sqrt(2.0));
+    
+    /**
+     * The scalar (dot) product of vectors (x1, y1) and (x2, y2).
+     * 
+     * @param x1 x-coordinate of the first vector
+     * @param y1 y-coordinate of the first vector
+     * @param x2 x-coordinate of the second vector
+     * @param y2 y-coordinate of the second vector
+     * @return the product of the vectors
+     */
+    private float dotProduct(float x1, float y1, float x2, float y2)
+    {
+        return x1 * x2 + y1 * y2;
+    }
+    
+    /**
+     * Linear interpolation.
+     * 
+     * @param value1 first value of interpolation
+     * @param value2 secondxvalue of interpolation
+     * @param weight weight of the interpolation
+     * @return 
+     */
+    private float lerp(float value1, float value2, float weight)
+    {
+        return value1 + weight * (value2 - value1);
+    }
 
     /**
      * Contructor.
@@ -155,8 +183,69 @@ public class PerlinNoise
         }
     }
     
-//    public float getNoise(float x, float y)
-//    {
-//        
-//    }
+    public void setLacunarity(float newValue) throws Exception
+    {
+        if (newValue > 1.0f)
+        {
+            lacunarity = newValue;
+        }
+        else
+        {
+            throw new Exception("PerlinNoise.setLacunarity");
+        }
+    }
+    
+    public float getNoise(int pixelGlobalX, int pixelGlobalY)
+    {
+        /* Naming */
+        /* x, y - refer to position counted in pixels
+         * col, row - refer to indices
+         */
+        
+        /* CLASS PAIR MIGHT BE USEFUL! */
+        
+        /* Adjust the coords. */
+        pixelGlobalX %= areaWidth;
+        pixelGlobalY %= areaHeight;
+        if (pixelGlobalX < 0)
+        {
+            pixelGlobalX += areaWidth;
+        }
+        if (pixelGlobalY < 0)
+        {
+            pixelGlobalY += areaHeight;
+        }
+        
+        /* Find the chunk's indices. */
+        int chunkCol = pixelGlobalX % chunkSize;
+        int chunkRow = pixelGlobalY % chunkSize;
+        
+        /* Global positions of chunk's sides. */
+        int chunkGlobalLeftX = chunkCol * chunkSize;
+        int chunkGlobalRightX = chunkGlobalLeftX + chunkSize;
+        int chunkGlobalTopY = chunkRow * chunkSize;
+        int chunkGlobakBottomY = chunkGlobalTopY + chunkSize;
+        
+        /* Pixel's position within the chunk, in pixels. */
+        int pixelLocalX = pixelGlobalX - chunkGlobalLeftX;
+        int pixelLocalY = pixelGlobalY - chunkGlobalTopY;
+        
+        /* Pixel's position within the chunk, as fraction from range [0, 1). */
+        float pixelFractionalLocalX = (float) pixelLocalX / (float) chunkSize;
+        float pixelFractionalLocalY = (float) pixelLocalY / (float) chunkSize;
+        
+        /* Offsets, as fractions */
+        float topLeftOffsetX = pixelFractionalLocalX;
+        float topLeftOffsetY = pixelFractionalLocalY;
+        float topRightOffsetX = (float) chunkSize - pixelFractionalLocalX;
+        float topRightOffsetY = pixelFractionalLocalY;
+        float bottomLeftOffsetX = pixelFractionalLocalX;
+        float bottomLeftOffsetY = (float) chunkSize - pixelFractionalLocalY;
+        float bottomRightOffsetX = topRightOffsetX;
+        float bottomRightOffsetY = bottomLeftOffsetY;
+        
+        
+        
+        return 0;
+    }
 }
