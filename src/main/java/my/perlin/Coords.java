@@ -7,25 +7,16 @@ package my.perlin;
 /**
  *
  * @author Kay Jay O'Nail
+ * @param <N>
  */
-public class Pair<N>
+public class Coords<N extends Number>
 {
-    private N x;
-    private N y;
+    public N x;
+    public N y;
     
-    public Pair(N x, N y)
+    public Coords(N x, N y)
     {
         this.x = x;
         this.y = y;
-    }
-    
-    public N getX()
-    {
-        return x;
-    }
-    
-    public N getY()
-    {
-        return y;
     }
 }
