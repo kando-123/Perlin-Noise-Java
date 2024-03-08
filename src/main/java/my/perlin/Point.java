@@ -9,12 +9,12 @@ package my.perlin;
  * @author Kay Jay O'Nail
  * @param <N>
  */
-public class Coords<N extends Number>
+public class Point<N extends Number>
 {
     public N x;
     public N y;
     
-    public Coords(N x, N y)
+    public Point(N x, N y)
     {
         this.x = x;
         this.y = y;
