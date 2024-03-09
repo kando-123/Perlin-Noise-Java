@@ -170,7 +170,6 @@ public class PerlinNoise
             octavesCount = 1;
             persistence = 0.5f;
             lacunarity = 2.0f;
-            
             lowerBound = 0d;
             upperBound = 1d;
         }
@@ -345,4 +344,6 @@ public class PerlinNoise
             throw new Exception("PerlinNoise.makeNoise");
         }
     }
+    
+    
 }

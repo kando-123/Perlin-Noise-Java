@@ -3,10 +3,16 @@
  */
 package my.perlin;
 
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.*;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+
 
 class PerlinPanel extends JPanel
 {
@@ -29,8 +35,8 @@ class PerlinPanel extends JPanel
             perlin = new PerlinNoise(width, height, chunk);
             perlin.setBounds(-1d, +1d);
             perlin.setOctaves(3);
-            image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
             
+            image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
             var pixels = new ArrayList<Point<Integer>>(width * height);
             for (int i = 0; i < width; ++i)
             {
@@ -40,7 +46,7 @@ class PerlinPanel extends JPanel
                 }
             }
             
-            var noise = perlin.makeNoise(pixels);
+            List<Double> noise = perlin.makeNoise(pixels);
             
             int k = 0;
             for (int i = 0; i < width; ++i)
